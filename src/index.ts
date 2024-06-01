@@ -1,11 +1,11 @@
-import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
-import movieRoutes from './routes/movie.routes';
-import { checkApiKey, errorHandler, rateLimitter } from './middlewares';
-import connectDB from './clients/db.client';
 import helmet from 'helmet';
+import morgan from 'morgan';
+import connectDB from './clients/db.client';
+import { checkApiKey, errorHandler, rateLimitter } from './middlewares';
+import movieRoutes from './routes/movie.routes';
 
 const serverInitializeFn = async () => {
   const app: Express = express();
@@ -19,6 +19,7 @@ const serverInitializeFn = async () => {
   app.use(rateLimitter);
   app.use(morgan('combined'));
   app.use(helmet());
+  
   app.use(
     cors({
       origin: [process.env.CLIENT_URL!],

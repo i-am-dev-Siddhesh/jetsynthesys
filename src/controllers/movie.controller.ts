@@ -33,9 +33,7 @@ export const fetchMovieByID = async (
     const movie = await MovieModel.findById(movieId);
     res.status(200).json({ status: true, data: movie });
     return;
-  } catch (error: any) {
-    console.log('error',error);
-    
+  } catch (error: any) {    
     next(error);
     return;
   }
