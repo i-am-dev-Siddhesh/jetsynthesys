@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { forbiddenError, generalError } from '../utils/errorResponse';
+import rateLimit from 'express-rate-limit';
 import { CustomError } from '../classes';
+import { forbiddenError, generalError } from '../utils/errorResponse';
+import { TOO_MANY_REQS } from '../constants';
 
 export const validateSchema =
   (schema: any) => (req: Request, res: Response, next: NextFunction) => {
@@ -30,8 +32,12 @@ export const checkApiKey = (
   }
 };
 
-
-export const errorHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler = (
+  error: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let statusCode = 500;
   let message = 'Internal Server Error';
 
@@ -42,3 +48,11 @@ export const errorHandler = (error: any, req: Request, res: Response, next: Next
 
   res.status(statusCode).json({ error: message });
 };
+
+export const rateLimitter = rateLimit({
+  windowMs: 2 * 60 * 1000,
+  max: 20,
+  handler: (req, res) => {
+    return res.status(429).json({ message: TOO_MANY_REQS });
+  },
+});

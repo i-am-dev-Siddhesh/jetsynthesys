@@ -4,8 +4,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
 import movieRoutes from './routes/movie.routes';
-import { checkApiKey, errorHandler } from './middlewares';
+import { checkApiKey, errorHandler, rateLimitter } from './middlewares';
 import connectDB from './clients/db.client';
+import helmet from 'helmet';
 
 const main = async () => {
   dotenv.config();
@@ -18,9 +19,10 @@ const main = async () => {
     bodyParser.json()(req, res, next);
   });
 
-  app.use(morgan('combined'));
   app.use(checkApiKey);
-  
+  app.use(rateLimitter);
+  app.use(morgan('combined'));
+
   connectDB();
   app.use(
     cors({

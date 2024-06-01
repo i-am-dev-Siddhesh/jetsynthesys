@@ -28,8 +28,9 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     app.use((req, res, next) => {
         body_parser_1.default.json()(req, res, next);
     });
-    app.use((0, morgan_1.default)('combined'));
     app.use(middlewares_1.checkApiKey);
+    app.use(middlewares_1.rateLimitter);
+    app.use((0, morgan_1.default)('combined'));
     (0, db_client_1.default)();
     app.use((0, cors_1.default)({
         origin: [process.env.CLIENT_URL],

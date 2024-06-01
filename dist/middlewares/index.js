@@ -1,8 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.errorHandler = exports.checkApiKey = exports.validateSchema = void 0;
-const errorResponse_1 = require("../utils/errorResponse");
+exports.rateLimitter = exports.errorHandler = exports.checkApiKey = exports.validateSchema = void 0;
+const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const classes_1 = require("../classes");
+const errorResponse_1 = require("../utils/errorResponse");
+const constants_1 = require("../constants");
 const validateSchema = (schema) => (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
@@ -37,3 +42,10 @@ const errorHandler = (error, req, res, next) => {
     res.status(statusCode).json({ error: message });
 };
 exports.errorHandler = errorHandler;
+exports.rateLimitter = (0, express_rate_limit_1.default)({
+    windowMs: 2 * 60 * 1000,
+    max: 20,
+    handler: (req, res) => {
+        return res.status(429).json({ message: constants_1.TOO_MANY_REQS });
+    },
+});
