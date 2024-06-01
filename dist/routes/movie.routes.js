@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const movie_controller_1 = require("../controllers/movie.controller");
 const index_1 = require("../middlewares/index");
 const movie_validation_1 = require("../validations/movie.validation");
-const movie_controller_1 = require("../controllers/movie.controller");
 const router = express_1.default.Router({ mergeParams: true });
 router
     .route('/movies')

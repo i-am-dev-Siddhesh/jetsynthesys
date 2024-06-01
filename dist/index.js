@@ -12,14 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
-const movie_routes_1 = __importDefault(require("./routes/movie.routes"));
-const middlewares_1 = require("./middlewares");
-const db_client_1 = __importDefault(require("./clients/db.client"));
 const helmet_1 = __importDefault(require("helmet"));
+const morgan_1 = __importDefault(require("morgan"));
+const db_client_1 = __importDefault(require("./clients/db.client"));
+const middlewares_1 = require("./middlewares");
+const movie_routes_1 = __importDefault(require("./routes/movie.routes"));
 const serverInitializeFn = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, express_1.default)();
     const PORT = process.env.PORT || 8000;

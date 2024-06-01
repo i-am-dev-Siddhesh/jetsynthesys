@@ -38,7 +38,6 @@ const fetchMovieByID = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         return;
     }
     catch (error) {
-        console.log('error', error);
         next(error);
         return;
     }
