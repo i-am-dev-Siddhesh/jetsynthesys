@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMovie = exports.updateMovie = exports.createMovie = exports.fetchAllMoviews = void 0;
+exports.deleteMovie = exports.updateMovie = exports.createMovie = exports.fetchMovieByID = exports.fetchAllMoviews = void 0;
 const movie_model_1 = require("../models/movie.model");
 const classes_1 = require("../classes");
 // @desc    Fetch All Movies from database
@@ -27,6 +27,23 @@ const fetchAllMoviews = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.fetchAllMoviews = fetchAllMoviews;
+// @desc    Fetch Single Movie from database based on Id
+// @route   GET /v1/movies/:movieId
+// @access  Public
+const fetchMovieByID = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const movieId = req.params.movieId;
+        const movie = yield movie_model_1.MovieModel.findById(movieId);
+        res.status(200).json({ status: true, data: movie });
+        return;
+    }
+    catch (error) {
+        console.log('error', error);
+        next(error);
+        return;
+    }
+});
+exports.fetchMovieByID = fetchMovieByID;
 // @desc    Create Movie entry in database
 // @route   POST /v1/movies
 // @access  Public

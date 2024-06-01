@@ -14,6 +14,7 @@ router
     .get(movie_controller_1.fetchAllMoviews);
 router
     .route('/movies/:movieId')
+    .get(movie_controller_1.fetchMovieByID)
     .put((0, index_1.validateSchema)(movie_validation_1.updateMovieSchema), movie_controller_1.updateMovie)
     .delete(movie_controller_1.deleteMovie);
 exports.default = router;

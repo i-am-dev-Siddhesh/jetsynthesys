@@ -20,6 +20,27 @@ export const fetchAllMoviews = async (
   }
 };
 
+// @desc    Fetch Single Movie from database based on Id
+// @route   GET /v1/movies/:movieId
+// @access  Public
+export const fetchMovieByID = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const movieId = req.params.movieId;
+    const movie = await MovieModel.findById(movieId);
+    res.status(200).json({ status: true, data: movie });
+    return;
+  } catch (error: any) {
+    console.log('error',error);
+    
+    next(error);
+    return;
+  }
+};
+
 // @desc    Create Movie entry in database
 // @route   POST /v1/movies
 // @access  Public

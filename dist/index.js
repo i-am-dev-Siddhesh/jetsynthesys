@@ -13,25 +13,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const morgan_1 = __importDefault(require("morgan"));
-const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const movie_routes_1 = __importDefault(require("./routes/movie.routes"));
 const middlewares_1 = require("./middlewares");
 const db_client_1 = __importDefault(require("./clients/db.client"));
-const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    dotenv_1.default.config();
+const helmet_1 = __importDefault(require("helmet"));
+const serverInitializeFn = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, express_1.default)();
     const PORT = process.env.PORT || 8000;
     app.set('trust proxy', 1);
-    app.use((req, res, next) => {
-        body_parser_1.default.json()(req, res, next);
-    });
+    // API key middleware
+    app.use(express_1.default.json());
     app.use(middlewares_1.checkApiKey);
     app.use(middlewares_1.rateLimitter);
     app.use((0, morgan_1.default)('combined'));
-    (0, db_client_1.default)();
+    app.use((0, helmet_1.default)());
     app.use((0, cors_1.default)({
         origin: [process.env.CLIENT_URL],
         methods: ['POST', 'PATCH', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
@@ -39,9 +37,13 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     }));
     app.use('/v1', movie_routes_1.default);
     app.use(middlewares_1.errorHandler);
-    app.listen(PORT, () => console.log(`⚡️[server]: Server is running at :${PORT}`));
+    app.listen(PORT, () => console.log(`⚡️[server]: Server is running at ${PORT}`));
 });
-main().catch((err) => {
-    console.log('Error Occurred:', err);
-    process.exit(1);
+const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    dotenv_1.default.config();
+    yield (0, db_client_1.default)();
+    serverInitializeFn().catch((_err) => {
+        process.exit(1);
+    });
 });
+main();

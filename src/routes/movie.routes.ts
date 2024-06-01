@@ -9,6 +9,7 @@ import {
   createMovie,
   deleteMovie,
   fetchAllMoviews,
+  fetchMovieByID,
   updateMovie,
 } from '../controllers/movie.controller';
 
@@ -21,6 +22,7 @@ router
 
 router
   .route('/movies/:movieId')
+  .get(fetchMovieByID)
   .put(validateSchema(updateMovieSchema), updateMovie)
   .delete(deleteMovie);
 
