@@ -10,3 +10,4 @@ class CustomError extends Error {
     }
 }
 exports.CustomError = CustomError;
+//# sourceMappingURL=index.js.map

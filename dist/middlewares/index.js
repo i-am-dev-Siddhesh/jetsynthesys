@@ -11,7 +11,7 @@ const constants_1 = require("../constants");
 const validateSchema = (schema) => (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
-        return res.status(422).json({ message: error === null || error === void 0 ? void 0 : error.details[0].message });
+        return res.status(422).json({ message: error?.details[0].message });
     }
     else {
         next();
@@ -19,10 +19,9 @@ const validateSchema = (schema) => (req, res, next) => {
 };
 exports.validateSchema = validateSchema;
 const checkApiKey = (req, res, next) => {
-    var _a;
     try {
         const apiKey = process.env.API_KEY;
-        if (!req.headers.apikey || ((_a = req === null || req === void 0 ? void 0 : req.headers) === null || _a === void 0 ? void 0 : _a.apikey) !== apiKey) {
+        if (!req.headers.apikey || req?.headers?.apikey !== apiKey) {
             return res.status(403).json((0, errorResponse_1.forbiddenError)());
         }
         return next();
@@ -49,3 +48,4 @@ exports.rateLimitter = (0, express_rate_limit_1.default)({
         return res.status(429).json({ message: constants_1.TOO_MANY_REQS });
     },
 });
+//# sourceMappingURL=index.js.map

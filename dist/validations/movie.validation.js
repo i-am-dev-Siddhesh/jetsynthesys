@@ -71,3 +71,4 @@ exports.updateMovieSchema = joi_1.default.object({
     .messages({
     'object.min': 'At least one field must be updated',
 });
+//# sourceMappingURL=movie.validation.js.map

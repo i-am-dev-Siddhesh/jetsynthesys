@@ -13,3 +13,4 @@ const movieSchema = new mongoose_1.default.Schema({
     rating: { type: Number, required: true, min: 1, max: 10 },
 }, { timestamps: true });
 exports.MovieModel = mongoose_1.default.model('Movie', movieSchema);
+//# sourceMappingURL=movie.model.js.map

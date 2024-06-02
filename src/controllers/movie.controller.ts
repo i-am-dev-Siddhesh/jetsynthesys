@@ -50,7 +50,7 @@ export const createMovie = async (
   try {
     const body = req.body;
     const movie = await MovieModel.create(body);
-    res.status(200).json({ status: true, data: movie });
+    res.status(201).json({ status: true, data: movie });
     return;
   } catch (error) {
     next(error);
@@ -103,7 +103,7 @@ export const deleteMovie = async (
       throw new CustomError(404, 'Movie not found');
     }
     res
-      .status(200)
+      .status(204)
       .json({ status: true, message: 'Movie deleted successfully' });
     return;
   } catch (error: any) {
