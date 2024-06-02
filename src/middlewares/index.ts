@@ -23,7 +23,7 @@ export const checkApiKey = (
     const apiKey = process.env.API_KEY as string;
 
     if (!req.headers.apikey || req?.headers?.apikey !== apiKey) {
-      return res.status(403).json(forbiddenError());
+      return res.status(401).json(forbiddenError());
     }
 
     return next();
@@ -46,12 +46,12 @@ export const errorHandler = (
     message = error.message;
   }
 
-  res.status(statusCode).json({ error: message });
+  res.status(statusCode).json({ message });
 };
 
 export const rateLimitter = rateLimit({
   windowMs: 2 * 60 * 1000,
-  max: 20,
+  max: 40,
   handler: (req, res) => {
     return res.status(429).json({ message: TOO_MANY_REQS });
   },

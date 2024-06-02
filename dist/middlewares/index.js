@@ -22,7 +22,7 @@ const checkApiKey = (req, res, next) => {
     try {
         const apiKey = process.env.API_KEY;
         if (!req.headers.apikey || req?.headers?.apikey !== apiKey) {
-            return res.status(403).json((0, errorResponse_1.forbiddenError)());
+            return res.status(401).json((0, errorResponse_1.forbiddenError)());
         }
         return next();
     }
@@ -38,12 +38,12 @@ const errorHandler = (error, req, res, next) => {
         statusCode = error.status_code;
         message = error.message;
     }
-    res.status(statusCode).json({ error: message });
+    res.status(statusCode).json({ message });
 };
 exports.errorHandler = errorHandler;
 exports.rateLimitter = (0, express_rate_limit_1.default)({
     windowMs: 2 * 60 * 1000,
-    max: 20,
+    max: 40,
     handler: (req, res) => {
         return res.status(429).json({ message: constants_1.TOO_MANY_REQS });
     },

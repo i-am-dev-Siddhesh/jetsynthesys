@@ -98,4 +98,4 @@ describe('POST /movies', () => {
         expect(response.body.status).toBe(true);
     });
 });
-//# sourceMappingURL=index.test.js.map
+//# sourceMappingURL=create.test.js.map

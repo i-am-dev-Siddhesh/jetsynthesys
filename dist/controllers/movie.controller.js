@@ -25,6 +25,9 @@ const fetchMovieByID = async (req, res, next) => {
     try {
         const movieId = req.params.movieId;
         const movie = await movie_model_1.MovieModel.findById(movieId);
+        if (!movie) {
+            throw new classes_1.CustomError(404, 'Movie not found');
+        }
         res.status(200).json({ status: true, data: movie });
         return;
     }
@@ -39,14 +42,12 @@ exports.fetchMovieByID = fetchMovieByID;
 // @access  Public
 const createMovie = async (req, res, next) => {
     try {
-        console.log('line 51');
         const body = req.body;
         const movie = await movie_model_1.MovieModel.create(body);
         res.status(201).json({ status: true, data: movie });
         return;
     }
     catch (error) {
-        console.log('line 58');
         next(error);
         return;
     }
@@ -83,7 +84,7 @@ const deleteMovie = async (req, res, next) => {
             throw new classes_1.CustomError(404, 'Movie not found');
         }
         res
-            .status(204)
+            .status(200)
             .json({ status: true, message: 'Movie deleted successfully' });
         return;
     }

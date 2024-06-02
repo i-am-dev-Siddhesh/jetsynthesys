@@ -38,5 +38,4 @@ const main = async () => {
     });
 };
 main();
-exports.default = main;
 //# sourceMappingURL=index.js.map
