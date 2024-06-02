@@ -21,7 +21,7 @@ exports.validateSchema = validateSchema;
 const checkApiKey = (req, res, next) => {
     try {
         const apiKey = process.env.API_KEY;
-        if (!req.headers.apikey || req?.headers?.apikey !== apiKey) {
+        if (!req.headers['x-api-key'] || req?.headers['x-api-key'] !== apiKey) {
             return res.status(401).json((0, errorResponse_1.forbiddenError)());
         }
         return next();

@@ -22,7 +22,7 @@ export const checkApiKey = (
   try {
     const apiKey = process.env.API_KEY as string;
 
-    if (!req.headers.apikey || req?.headers?.apikey !== apiKey) {
+    if (!req.headers['x-api-key'] || req?.headers['x-api-key'] !== apiKey) {
       return res.status(401).json(forbiddenError());
     }
 

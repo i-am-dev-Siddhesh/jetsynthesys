@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
-const constant_1 = require("./constant"); // Import the constants from constants.ts
+const constant_1 = require("./constant");
 describe('GET /movies', () => {
     it('responds with status 200 and retrieves all movies', async () => {
         const response = await (0, supertest_1.default)(constant_1.BASE_URL)
